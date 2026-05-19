@@ -112,25 +112,22 @@ body {
    ======================================== */
 
 .nav-tab {
-  background: linear-gradient(180deg, #e8dcc6 0%, #ddd3bd 100%);
-  border: 1px solid #b5b3ac;
-  border-bottom: none;
+  background: transparent;
+  border-right: 1px solid #b8730f;
   padding: 6px 16px;
   font-size: 13px;
-  color: #3a0a0a;
+  color: #ffffff;
   cursor: pointer;
-  transition: background 0.15s;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .nav-tab:hover {
-  background: linear-gradient(180deg, #f3ebda 0%, #e8dcc6 100%);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .nav-tab.active {
-  background: linear-gradient(180deg, #ffffff 0%, #faf5eb 100%);
-  border-bottom: 2px solid #faf5eb;
-  color: #6b1a1a;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   font-weight: 700;
 }
 
@@ -144,12 +141,12 @@ body {
 }
 
 .portal-section-header {
-  background: linear-gradient(180deg, #e5e2da 0%, #d0cec8 100%);
-  border-bottom: 1px solid #b5b3ac;
+  background: url('/imgs/header-tab.png') repeat-x left top;
+  border-bottom: 1px solid #b8730f;
   padding: 6px 12px;
   font-size: 13px;
   font-weight: 700;
-  color: #3a0a0a;
+  color: #ffffff;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -157,7 +154,7 @@ body {
 
 .portal-section-header::before {
   content: "▪";
-  color: #d4871c;
+  color: #ffffff;
   font-size: 10px;
 }
 
@@ -186,12 +183,12 @@ body {
 }
 
 .admin-table thead th {
-  background: linear-gradient(180deg, #e5e2da 0%, #d0cec8 100%);
-  border: 1px solid #b5b3ac;
+  background: url('/imgs/header-tab.png') repeat-x left top;
+  border: 1px solid #b8730f;
   padding: 6px 10px;
   text-align: left;
   font-weight: 700;
-  color: #3a0a0a;
+  color: #ffffff;
   font-size: 12px;
   white-space: nowrap;
 }

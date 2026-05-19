@@ -176,7 +176,7 @@ export default function MessageBoard() {
         </div>
         <div className="orange-bar-thin" />
         <div
-          className={`max-h-[420px] overflow-y-auto p-2 ${autoScroll ? "auto-scroll-container" : ""}`}
+          className={`max-h-[420px] p-2 relative ${autoScroll ? "overflow-hidden auto-scroll-container" : "overflow-y-auto"}`}
           id="messages-container"
         >
           {messages.length === 0 ? (
@@ -186,9 +186,9 @@ export default function MessageBoard() {
             </div>
           ) : (
             <div
-              className={autoScroll && messages.length > 5 ? "auto-scroll-content scrolling" : ""}
+              className={autoScroll && messages.length > 2 ? "auto-scroll-content scrolling" : ""}
               style={
-                autoScroll && messages.length > 5
+                autoScroll && messages.length > 2
                   ? ({ "--scroll-duration": `${messages.length * 6}s` } as React.CSSProperties)
                   : undefined
               }
@@ -202,14 +202,13 @@ export default function MessageBoard() {
                     <span className="text-[#8a8070] text-xs ml-auto">
                       🕐 {formatTime(msg.createdAt)}
                     </span>
-                    <span className="badge badge-visible">แสดงบนจอแล้ว</span>
                   </div>
                   <p className="message-text">{msg.message}</p>
                 </div>
               ))}
               {/* Duplicate for seamless loop */}
               {autoScroll &&
-                messages.length > 5 &&
+                messages.length > 2 &&
                 messages.map((msg) => (
                   <div key={`dup-${msg.id}`} className="message-card">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -219,7 +218,7 @@ export default function MessageBoard() {
                       <span className="text-[#8a8070] text-xs ml-auto">
                         🕐 {formatTime(msg.createdAt)}
                       </span>
-                      <span className="badge badge-visible">แสดงบนจอแล้ว</span>
+                      {/* <span className="badge badge-visible">แสดงบนจอแล้ว</span> */}
                     </div>
                     <p className="message-text">{msg.message}</p>
                   </div>

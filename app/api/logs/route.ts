@@ -5,6 +5,6 @@ import { getActivityLogs } from "@/app/lib/store";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const logs = getActivityLogs();
+  const logs = await getActivityLogs();
   return Response.json({ logs });
 }

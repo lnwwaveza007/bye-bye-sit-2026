@@ -8,11 +8,13 @@ import {
 } from "@/app/lib/store";
 import { NextRequest } from "next/server";
 
-export const dynamic = "force-dynamic";
+import { revalidatePath } from "next/cache";
+
+export const revalidate = 10; // Cache for 10 seconds to save Firebase reads
 
 export async function GET(request: NextRequest) {
   const showAll = request.nextUrl.searchParams.get("all") === "true";
-  const messages = showAll ? getMessages() : getVisibleMessages();
+  const messages = showAll ? await getMessages() : await getVisibleMessages();
   return Response.json({ messages });
 }
 
@@ -42,7 +44,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newMessage = addMessage(senderName.trim(), recipient.trim(), message.trim());
+    const newMessage = await addMessage(senderName.trim(), recipient.trim(), message.trim());
+    revalidatePath("/api/messages");
+    revalidatePath("/api/stats"); // Update stats cache too
     return Response.json({ message: newMessage }, { status: 201 });
   } catch {
     return Response.json(

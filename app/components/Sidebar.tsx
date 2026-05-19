@@ -42,10 +42,6 @@ export default function Sidebar() {
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#5c3a24] font-bold">จุดแสดงผล:</span>
-            <span>TV Booth 01</span>
-          </div>
-          <div className="flex justify-between">
             <span className="text-[#5c3a24] font-bold">งาน:</span>
             <span>Bye Bye Party 2024</span>
           </div>
@@ -92,18 +88,6 @@ export default function Sidebar() {
               <span>ถ่ายรูปกับจอได้เลย 📷</span>
             </li>
           </ol>
-        </div>
-      </div>
-
-      {/* Quick Links */}
-      <div className="portal-section">
-        <div className="portal-section-header">ลิงก์ด่วน</div>
-        <div className="orange-bar-thin" />
-        <div className="p-2.5 text-xs space-y-1">
-          <div className="text-[#6b1a1a] hover:underline cursor-pointer">📋 ข้อมูลกิจกรรม</div>
-          <div className="text-[#6b1a1a] hover:underline cursor-pointer">📝 ข้อความล่าสุด</div>
-          <div className="text-[#6b1a1a] hover:underline cursor-pointer">📸 Moment กับรุ่นพี่</div>
-          <div className="text-[#6b1a1a] hover:underline cursor-pointer">🎓 Good Journey Wishes</div>
         </div>
       </div>
     </div>

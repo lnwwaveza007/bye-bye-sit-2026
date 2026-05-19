@@ -5,7 +5,7 @@ import { exportMessagesCSV } from "@/app/lib/store";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const csv = exportMessagesCSV();
+  const csv = await exportMessagesCSV();
   return new Response(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",

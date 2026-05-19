@@ -18,7 +18,7 @@ export async function PATCH(
       return Response.json({ error: "สถานะไม่ถูกต้อง" }, { status: 400 });
     }
 
-    const updated = updateMessageStatus(id, status);
+    const updated = await updateMessageStatus(id, status);
     if (!updated) {
       return Response.json({ error: "ไม่พบข้อความ" }, { status: 404 });
     }
@@ -37,7 +37,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const deleted = deleteMessage(id);
+  const deleted = await deleteMessage(id);
   if (!deleted) {
     return Response.json({ error: "ไม่พบข้อความ" }, { status: 404 });
   }

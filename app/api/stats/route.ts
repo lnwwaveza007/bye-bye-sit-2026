@@ -2,9 +2,9 @@
 
 import { getStats } from "@/app/lib/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 10; // Cache for 10 seconds
 
 export async function GET() {
-  const stats = getStats();
+  const stats = await getStats();
   return Response.json(stats);
 }

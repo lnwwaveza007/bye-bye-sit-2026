@@ -1,187 +1,137 @@
 // ========================================
-// In-Memory Data Store (Server-Side)
-// For production, replace with Firebase/Supabase
+// Firebase Data Store (Server-Side in API Routes)
 // ========================================
 
 import { Message, ActivityLog, WishCounter } from "./types";
+import { db } from "./firebase";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  limit,
+  where,
+  runTransaction
+} from "firebase/firestore";
 
-// Pre-loaded sample messages so the screen doesn't look empty
-const sampleMessages: Message[] = [
-  {
-    id: "sample-1",
-    senderName: "น้องมิ้นท์",
-    recipient: "รุ่นพี่ทั้งหมด",
-    message: "ขอบคุณพี่ ๆ ที่คอยช่วยเหลือมาตลอด ขอให้เส้นทางต่อไปสดใสมาก ๆ",
-    createdAt: new Date(Date.now() - 300000).toISOString(),
-    status: "visible",
-  },
-  {
-    id: "sample-2",
-    senderName: "โอ๊ต IT63",
-    recipient: "รุ่นพี่ทั้งหมด",
-    message: "จะไม่ลืมโมเมนต์ทำโปรเจกต์ดึก ๆ ด้วยกันครับ",
-    createdAt: new Date(Date.now() - 240000).toISOString(),
-    status: "visible",
-  },
-  {
-    id: "sample-3",
-    senderName: "แพรว",
-    recipient: "พี่รหัส / น้องรหัส",
-    message:
-      "ขอให้พี่ ๆ เดินทางในเส้นทางใหม่อย่างมั่นใจ และไม่เจอบั๊กเยอะเกินไป",
-    createdAt: new Date(Date.now() - 180000).toISOString(),
-    status: "visible",
-  },
-  {
-    id: "sample-4",
-    senderName: "เบนซ์ CS",
-    recipient: "รุ่นพี่ทั้งหมด",
-    message:
-      "Good luck seniors! ขอให้ชีวิตหลังเรียนจบ compile ผ่านทุกครั้ง",
-    createdAt: new Date(Date.now() - 120000).toISOString(),
-    status: "visible",
-  },
-  {
-    id: "sample-5",
-    senderName: "น้องเฟิร์น",
-    recipient: "อาจารย์",
-    message: "ขอบคุณสำหรับทุกคำแนะนำ ทุกเสียงหัวเราะ และทุกความทรงจำ",
-    createdAt: new Date(Date.now() - 60000).toISOString(),
-    status: "visible",
-  },
-];
-
-// In-memory storage
-let messages: Message[] = [...sampleMessages];
-let wishCounter: WishCounter = {
-  totalWishes: 108,
-  lastUpdated: new Date().toISOString(),
-};
-let activityLogs: ActivityLog[] = [
-  {
-    id: "log-init-1",
-    time: new Date(Date.now() - 300000).toISOString(),
-    type: "Message Board",
-    detail: "เพิ่มข้อความใหม่ถึงรุ่นพี่",
-    status: "สำเร็จ",
-  },
-  {
-    id: "log-init-2",
-    time: new Date(Date.now() - 240000).toISOString(),
-    type: "IG Add Yours",
-    detail: "แสดง QR Code สำหรับ Story",
-    status: "พร้อมใช้งาน",
-  },
-  {
-    id: "log-init-3",
-    time: new Date(Date.now() - 180000).toISOString(),
-    type: "Good Journey",
-    detail: "ส่งคำอวยพรแล้ว",
-    status: "สำเร็จ",
-  },
-];
-
-// Helper to generate IDs
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+export async function getMessages(): Promise<Message[]> {
+  const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Message));
 }
 
-// Messages CRUD
-export function getMessages(): Message[] {
-  return [...messages].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+export async function getVisibleMessages(): Promise<Message[]> {
+  const q = query(
+    collection(db, "messages"),
+    where("status", "in", ["visible", "approved"])
   );
+  const snapshot = await getDocs(q);
+  const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Message));
+  return msgs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
-export function getVisibleMessages(): Message[] {
-  return getMessages().filter((m) => m.status === "visible" || m.status === "approved");
-}
-
-export function addMessage(
+export async function addMessage(
   senderName: string,
   recipient: string,
   message: string
-): Message {
-  const newMessage: Message = {
-    id: generateId(),
+): Promise<Message> {
+  const newMessage = {
     senderName,
     recipient,
     message,
     createdAt: new Date().toISOString(),
-    status: "visible", // Fast Mode: messages appear instantly
+    status: "visible", // Fast Mode
   };
-  messages.unshift(newMessage);
-  addActivityLog("Message Board", `ข้อความใหม่จาก ${senderName} ถึง ${recipient}`, "สำเร็จ");
-  return newMessage;
+  const docRef = await addDoc(collection(db, "messages"), newMessage);
+  await addActivityLog("Message Board", `ข้อความใหม่จาก ${senderName} ถึง ${recipient}`, "สำเร็จ");
+  return { id: docRef.id, ...(newMessage as any) };
 }
 
-export function updateMessageStatus(
+export async function updateMessageStatus(
   id: string,
   status: Message["status"]
-): Message | null {
-  const msg = messages.find((m) => m.id === id);
-  if (msg) {
-    msg.status = status;
-    return msg;
+): Promise<Message | null> {
+  const docRef = doc(db, "messages", id);
+  await updateDoc(docRef, { status });
+  const snapshot = await getDoc(docRef);
+  if (snapshot.exists()) {
+    return { id: snapshot.id, ...snapshot.data() } as Message;
   }
   return null;
 }
 
-export function deleteMessage(id: string): boolean {
-  const idx = messages.findIndex((m) => m.id === id);
-  if (idx !== -1) {
-    messages.splice(idx, 1);
-    return true;
-  }
-  return false;
+export async function deleteMessage(id: string): Promise<boolean> {
+  await deleteDoc(doc(db, "messages", id));
+  return true;
 }
 
 // Wish Counter
-export function getWishCounter(): WishCounter {
-  return { ...wishCounter };
+export async function getWishCounter(): Promise<WishCounter> {
+  const docRef = doc(db, "stats", "wishCounter");
+  const snapshot = await getDoc(docRef);
+  if (!snapshot.exists()) {
+    return { totalWishes: 0, lastUpdated: new Date().toISOString() };
+  }
+  return snapshot.data() as WishCounter;
 }
 
-export function incrementWishCounter(): WishCounter {
-  wishCounter.totalWishes += 1;
-  wishCounter.lastUpdated = new Date().toISOString();
-  return { ...wishCounter };
+export async function incrementWishCounter(): Promise<WishCounter> {
+  const docRef = doc(db, "stats", "wishCounter");
+  const newCounter = { totalWishes: 0, lastUpdated: new Date().toISOString() };
+  
+  await runTransaction(db, async (transaction) => {
+    const docSnap = await transaction.get(docRef);
+    if (!docSnap.exists()) {
+      newCounter.totalWishes = 1;
+      transaction.set(docRef, newCounter);
+    } else {
+      const current = docSnap.data().totalWishes || 0;
+      newCounter.totalWishes = current + 1;
+      transaction.update(docRef, newCounter);
+    }
+  });
+  
+  return newCounter;
 }
 
-export function resetWishCounter(): WishCounter {
-  wishCounter.totalWishes = 0;
-  wishCounter.lastUpdated = new Date().toISOString();
-  return { ...wishCounter };
+export async function resetWishCounter(): Promise<WishCounter> {
+  const newCounter = { totalWishes: 0, lastUpdated: new Date().toISOString() };
+  await setDoc(doc(db, "stats", "wishCounter"), newCounter);
+  return newCounter;
 }
 
 // Activity Logs
-export function getActivityLogs(): ActivityLog[] {
-  return [...activityLogs].sort(
-    (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
-  );
+export async function getActivityLogs(): Promise<ActivityLog[]> {
+  const q = query(collection(db, "activityLogs"), orderBy("time", "desc"), limit(50));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as ActivityLog));
 }
 
-export function addActivityLog(
+export async function addActivityLog(
   type: ActivityLog["type"],
   detail: string,
   status: ActivityLog["status"]
-): ActivityLog {
-  const log: ActivityLog = {
-    id: generateId(),
+): Promise<ActivityLog> {
+  const log = {
     time: new Date().toISOString(),
     type,
     detail,
     status,
   };
-  activityLogs.unshift(log);
-  // Keep only last 50 logs
-  if (activityLogs.length > 50) {
-    activityLogs = activityLogs.slice(0, 50);
-  }
-  return log;
+  const docRef = await addDoc(collection(db, "activityLogs"), log);
+  return { id: docRef.id, ...(log as any) };
 }
 
 // Stats
-export function getStats() {
+export async function getStats() {
+  const messages = await getMessages();
+  const wishCounter = await getWishCounter();
   return {
     totalMessages: messages.filter((m) => m.status !== "hidden").length,
     totalWishes: wishCounter.totalWishes,
@@ -189,7 +139,8 @@ export function getStats() {
 }
 
 // CSV Export
-export function exportMessagesCSV(): string {
+export async function exportMessagesCSV(): Promise<string> {
+  const messages = await getMessages();
   const header = "ID,Sender,Recipient,Message,CreatedAt,Status";
   const rows = messages.map(
     (m) =>
