@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
   if (action === "reset") {
     const counter = await resetWishCounter();
-    await addActivityLog("Good Journey", "รีเซ็ตตัวนับยอดอวยพร", "เสร็จสิ้น");
+    await addActivityLog("Good Journey", "รีเซ็ตตัวนับยอดอวยพร", "สำเร็จ");
     revalidatePath("/api/wishes");
     revalidatePath("/api/stats");
     return Response.json(counter);

@@ -7,7 +7,7 @@ import { RECIPIENT_OPTIONS } from "@/app/lib/types";
 export default function MessageBoard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [senderName, setSenderName] = useState("");
-  const [recipient, setRecipient] = useState(RECIPIENT_OPTIONS[0]);
+  const [recipient, setRecipient] = useState<string>(RECIPIENT_OPTIONS[0]);
   const [messageText, setMessageText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
