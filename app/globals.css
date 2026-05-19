@@ -1,26 +1,593 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ========================================
+   KMUTT IT Bye Bye Party 2024
+   Old Thai University Portal Design System
+   ======================================== */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* University Portal Color Palette */
+  --color-maroon-900: #3a0a0a;
+  --color-maroon-800: #4d1111;
+  --color-maroon-700: #6b1a1a;
+  --color-maroon-600: #8b2525;
+  --color-maroon-500: #a83232;
+  --color-maroon-400: #c44848;
+
+  --color-brown-900: #2c1810;
+  --color-brown-800: #3d2516;
+  --color-brown-700: #5c3a24;
+  --color-brown-600: #7a4e33;
+  --color-brown-500: #8d6344;
+
+  --color-orange-accent: #d4871c;
+  --color-orange-bar: #e8951f;
+  --color-orange-light: #f0a83a;
+
+  --color-gold-muted: #b8953e;
+  --color-gold-light: #d4b05c;
+
+  --color-cream-100: #faf5eb;
+  --color-cream-200: #f3ebda;
+  --color-cream-300: #e8dcc6;
+
+  --color-beige-100: #f5f0e5;
+  --color-beige-200: #eae3d2;
+  --color-beige-300: #ddd3bd;
+
+  --color-gray-portal: #d0cec8;
+  --color-gray-header: #b5b3ac;
+  --color-gray-border: #c4c1b8;
+  --color-gray-section: #e5e2da;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #f5f0e5;
+  --foreground: #1a1a1a;
 }
+
+/* ========================================
+   Base Styles
+   ======================================== */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Tahoma", "Segoe UI", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ========================================
+   Scrollbar Styling (old portal feel)
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e8e3d8;
+  border: 1px solid #c4c1b8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a89e8e;
+  border: 1px solid #8a8070;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b7d6b;
+}
+
+/* ========================================
+   Old Portal Header Gradient
+   ======================================== */
+
+.portal-header-gradient {
+  background: linear-gradient(180deg, #6b1a1a 0%, #4d1111 40%, #3a0a0a 100%);
+}
+
+.portal-header-gold-stripe {
+  background: linear-gradient(
+    90deg,
+    #b8953e 0%,
+    #d4b05c 25%,
+    #e8c878 50%,
+    #d4b05c 75%,
+    #b8953e 100%
+  );
+  height: 3px;
+}
+
+/* ========================================
+   Navigation Tab Bar (old portal style)
+   ======================================== */
+
+.nav-tab {
+  background: linear-gradient(180deg, #e8dcc6 0%, #ddd3bd 100%);
+  border: 1px solid #b5b3ac;
+  border-bottom: none;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #3a0a0a;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-weight: 500;
+}
+
+.nav-tab:hover {
+  background: linear-gradient(180deg, #f3ebda 0%, #e8dcc6 100%);
+}
+
+.nav-tab.active {
+  background: linear-gradient(180deg, #ffffff 0%, #faf5eb 100%);
+  border-bottom: 2px solid #faf5eb;
+  color: #6b1a1a;
+  font-weight: 700;
+}
+
+/* ========================================
+   Section Box (admin panel style)
+   ======================================== */
+
+.portal-section {
+  border: 1px solid #c4c1b8;
+  background: #faf5eb;
+}
+
+.portal-section-header {
+  background: linear-gradient(180deg, #e5e2da 0%, #d0cec8 100%);
+  border-bottom: 1px solid #b5b3ac;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3a0a0a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.portal-section-header::before {
+  content: "▪";
+  color: #d4871c;
+  font-size: 10px;
+}
+
+/* ========================================
+   Orange Highlight Bar
+   ======================================== */
+
+.orange-bar {
+  background: linear-gradient(90deg, #e8951f 0%, #d4871c 100%);
+  height: 4px;
+}
+
+.orange-bar-thin {
+  background: #d4871c;
+  height: 2px;
+}
+
+/* ========================================
+   Admin Table Styles
+   ======================================== */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.admin-table thead th {
+  background: linear-gradient(180deg, #e5e2da 0%, #d0cec8 100%);
+  border: 1px solid #b5b3ac;
+  padding: 6px 10px;
+  text-align: left;
+  font-weight: 700;
+  color: #3a0a0a;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.admin-table tbody td {
+  border: 1px solid #d0cec8;
+  padding: 6px 10px;
+  background: #faf5eb;
+  vertical-align: top;
+}
+
+.admin-table tbody tr:nth-child(even) td {
+  background: #f3ebda;
+}
+
+.admin-table tbody tr:hover td {
+  background: #e8dcc6;
+}
+
+/* ========================================
+   Status Badges
+   ======================================== */
+
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+.badge-success {
+  background: #d4edda;
+  color: #155724;
+  border-color: #a8d5b5;
+}
+
+.badge-active {
+  background: #d1ecf1;
+  color: #0c5460;
+  border-color: #a2d5dd;
+}
+
+.badge-pending {
+  background: #fff3cd;
+  color: #856404;
+  border-color: #f0d77a;
+}
+
+.badge-visible {
+  background: #fde2c8;
+  color: #7a4e33;
+  border-color: #f0c090;
+}
+
+/* ========================================
+   Old-School Buttons
+   ======================================== */
+
+.btn-portal {
+  background: linear-gradient(180deg, #e8dcc6 0%, #d0cec8 100%);
+  border: 1px solid #a8a49a;
+  padding: 5px 16px;
+  font-size: 13px;
+  color: #3a0a0a;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.btn-portal:hover {
+  background: linear-gradient(180deg, #f3ebda 0%, #e8dcc6 100%);
+  border-color: #8a8070;
+}
+
+.btn-portal:active {
+  background: linear-gradient(180deg, #c4c1b8 0%, #b5b3ac 100%);
+}
+
+.btn-maroon {
+  background: linear-gradient(180deg, #8b2525 0%, #6b1a1a 100%);
+  border: 1px solid #4d1111;
+  color: #faf5eb;
+  padding: 6px 20px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.15s;
+}
+
+.btn-maroon:hover {
+  background: linear-gradient(180deg, #a83232 0%, #8b2525 100%);
+}
+
+.btn-maroon:active {
+  background: linear-gradient(180deg, #6b1a1a 0%, #4d1111 100%);
+}
+
+.btn-orange {
+  background: linear-gradient(180deg, #e8951f 0%, #d4871c 100%);
+  border: 1px solid #b8730f;
+  color: #fff;
+  padding: 8px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.15s;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.btn-orange:hover {
+  background: linear-gradient(180deg, #f0a83a 0%, #e8951f 100%);
+}
+
+.btn-orange:active {
+  background: linear-gradient(180deg, #d4871c 0%, #b8730f 100%);
+}
+
+/* ========================================
+   Form Elements (old portal style)
+   ======================================== */
+
+.portal-input {
+  border: 1px solid #b5b3ac;
+  background: #ffffff;
+  padding: 5px 8px;
+  font-size: 13px;
+  color: #1a1a1a;
+  font-family: "Tahoma", "Segoe UI", Arial, Helvetica, sans-serif;
+  transition: border-color 0.15s;
+}
+
+.portal-input:focus {
+  outline: none;
+  border-color: #8b2525;
+  box-shadow: 0 0 0 1px rgba(139, 37, 37, 0.2);
+}
+
+.portal-select {
+  border: 1px solid #b5b3ac;
+  background: #ffffff;
+  padding: 5px 8px;
+  font-size: 13px;
+  color: #1a1a1a;
+  font-family: "Tahoma", "Segoe UI", Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.portal-textarea {
+  border: 1px solid #b5b3ac;
+  background: #ffffff;
+  padding: 5px 8px;
+  font-size: 13px;
+  color: #1a1a1a;
+  font-family: "Tahoma", "Segoe UI", Arial, Helvetica, sans-serif;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.portal-textarea:focus {
+  outline: none;
+  border-color: #8b2525;
+  box-shadow: 0 0 0 1px rgba(139, 37, 37, 0.2);
+}
+
+/* ========================================
+   Message Card
+   ======================================== */
+
+.message-card {
+  border: 1px solid #d0cec8;
+  background: #ffffff;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+}
+
+.message-card:hover {
+  background: #faf5eb;
+}
+
+.message-card .sender {
+  color: #6b1a1a;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.message-card .recipient-tag {
+  background: #e8dcc6;
+  border: 1px solid #c4c1b8;
+  padding: 0 6px;
+  font-size: 11px;
+  color: #5c3a24;
+  display: inline-block;
+}
+
+.message-card .message-text {
+  color: #2a2a2a;
+  font-size: 14px;
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.message-card .timestamp {
+  color: #8a8070;
+  font-size: 11px;
+}
+
+/* ========================================
+   Floating Particles Animation
+   ======================================== */
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-200px) scale(0.5) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.floating-particle {
+  position: fixed;
+  pointer-events: none;
+  animation: float-up 2s ease-out forwards;
+  z-index: 9999;
+  font-size: 24px;
+}
+
+/* ========================================
+   Auto-scroll Animation
+   ======================================== */
+
+@keyframes scroll-messages {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.auto-scroll-container {
+  overflow: hidden;
+}
+
+.auto-scroll-content.scrolling {
+  animation: scroll-messages var(--scroll-duration, 30s) linear infinite;
+}
+
+.auto-scroll-content.scrolling:hover {
+  animation-play-state: paused;
+}
+
+/* ========================================
+   Blinking Cursor (old system feel)
+   ======================================== */
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.system-cursor::after {
+  content: "▌";
+  animation: blink 1s infinite;
+  color: #6b1a1a;
+}
+
+/* ========================================
+   QR Code Section
+   ======================================== */
+
+.qr-container {
+  background: #ffffff;
+  border: 3px solid #d0cec8;
+  padding: 12px;
+  display: inline-block;
+}
+
+/* ========================================
+   TV Display Optimizations
+   ======================================== */
+
+@media (min-width: 1920px) {
+  body {
+    font-size: 16px;
+  }
+
+  .admin-table {
+    font-size: 15px;
+  }
+
+  .admin-table thead th {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .admin-table tbody td {
+    padding: 8px 14px;
+  }
+
+  .message-card .message-text {
+    font-size: 16px;
+  }
+
+  .nav-tab {
+    font-size: 15px;
+    padding: 8px 20px;
+  }
+}
+
+/* ========================================
+   Pulse animation for wish button
+   ======================================== */
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(232, 149, 31, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(232, 149, 31, 0);
+  }
+}
+
+.wish-button-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   Counter tick animation
+   ======================================== */
+
+@keyframes tick-up {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.counter-tick {
+  animation: tick-up 0.3s ease-out;
+}
+
+/* ========================================
+   Wish message reveal
+   ======================================== */
+
+@keyframes reveal-wish {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wish-reveal {
+  animation: reveal-wish 0.5s ease-out;
+}
+
+/* ========================================
+   System status indicator
+   ======================================== */
+
+@keyframes status-blink {
+  0%,
+  100% {
+    background: #28a745;
+  }
+  50% {
+    background: #5cb85c;
+  }
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #28a745;
+  display: inline-block;
+  animation: status-blink 2s ease-in-out infinite;
 }
