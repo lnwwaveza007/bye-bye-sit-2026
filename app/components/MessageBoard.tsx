@@ -8,6 +8,7 @@ export default function MessageBoard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [senderName, setSenderName] = useState("");
   const [recipient, setRecipient] = useState<string>(RECIPIENT_OPTIONS[0]);
+  const [specificRecipient, setSpecificRecipient] = useState("");
   const [messageText, setMessageText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -36,17 +37,28 @@ export default function MessageBoard() {
       setError("กรุณากรอกชื่อและข้อความ");
       return;
     }
+    if (recipient === "ระบุเจาะจง" && !specificRecipient.trim()) {
+      setError("กรุณาระบุชื่อผู้รับให้ชัดเจน");
+      return;
+    }
 
     setIsSubmitting(true);
     setError("");
 
     try {
+      let finalRecipient = recipient;
+      if (recipient === "ระบุเจาะจง") {
+        finalRecipient = specificRecipient.trim();
+      } else if (specificRecipient.trim()) {
+        finalRecipient = `${recipient} ${specificRecipient.trim()}`;
+      }
+
       const res = await fetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           senderName: senderName.trim(),
-          recipient,
+          recipient: finalRecipient,
           message: messageText.trim(),
         }),
       });
@@ -60,6 +72,7 @@ export default function MessageBoard() {
       setSenderName("");
       setMessageText("");
       setRecipient(RECIPIENT_OPTIONS[0]);
+      setSpecificRecipient("");
       setSubmitSuccess(true);
       setTimeout(() => setSubmitSuccess(false), 3000);
       fetchMessages();
@@ -118,6 +131,21 @@ export default function MessageBoard() {
                   ))}
                 </select>
               </div>
+              {recipient !== "พี่ปี 4 ทั้งหมด" && (
+                <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
+                  <label className="text-xs font-bold text-[#5c3a24]">
+                    {recipient === "ระบุเจาะจง" ? "ระบุชื่อเล่นพี่:" : "ระบุชื่อเล่น (ถ้ามี):"}
+                  </label>
+                  <input
+                    type="text"
+                    className="portal-input w-full"
+                    placeholder={recipient === "เพื่อน" ? "เช่น ปาล์ม" : "เช่น พี่โอ๊ต"}
+                    value={specificRecipient}
+                    onChange={(e) => setSpecificRecipient(e.target.value)}
+                    maxLength={50}
+                  />
+                </div>
+              )}
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-[#5c3a24]">

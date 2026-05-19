@@ -26,11 +26,10 @@ export interface ActivityLog {
 }
 
 export const RECIPIENT_OPTIONS = [
-  "รุ่นพี่ทั้งหมด",
+  "พี่ปี 4 ทั้งหมด",
+  "พี่รหัส",
   "เพื่อน",
-  "พี่รหัส / น้องรหัส",
-  "อาจารย์",
-  "ภาควิชา IT",
+  "ระบุเจาะจง",
 ] as const;
 
 export const WISH_MESSAGES = [

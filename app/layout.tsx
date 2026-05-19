@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ระบบสารสนเทศงานเลี้ยงอำลารุ่นพี่ | KMUTT IT Bye Bye Party 2024",
+  title: "ระบบสารสนเทศงานเลี้ยงอำลารุ่นพี่ | KMUTT IT Bye Bye Party 2026",
   description:
-    "ระบบกระดานข้อความและกิจกรรมสำหรับงาน KMUTT IT Bye Bye Party 2024 — ส่งข้อความอำลา ร่วมเล่น IG Story และส่งคำอวยพร Good Journey ให้รุ่นพี่",
+    "KMUTT IT Bye Bye Party 2026 — ส่งข้อความอำลา ร่วมเล่น IG Story และส่งคำอวยพร Good Journey ให้รุ่นพี่",
 };
 
 export default function RootLayout({
