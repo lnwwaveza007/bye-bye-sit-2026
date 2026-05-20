@@ -85,7 +85,10 @@ export default function MessageBoard() {
 
   const formatTime = (dateStr: string) => {
     const d = new Date(dateStr);
-    return d.toLocaleTimeString("th-TH", {
+    return d.toLocaleString("th-TH", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
       timeZone: "Asia/Bangkok",
@@ -102,21 +105,27 @@ export default function MessageBoard() {
             <div className="flex gap-2.5 items-end flex-wrap">
               <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
                 <label className="text-xs font-bold text-[#5c3a24]">
-                  ชื่อ / นามแฝง:
+                  ชื่อ / นามแฝง <span className="text-red-600">*</span>:
                 </label>
                 <input
                   type="text"
                   className="portal-input w-full"
                   placeholder="กรอกชื่อของคุณ"
                   value={senderName}
-                  onChange={(e) => setSenderName(e.target.value)}
+                  onChange={(e) => {
+                    setSenderName(e.target.value);
+                    if (e.target.value.trim() && messageText.trim()) setError("");
+                  }}
+                  onBlur={(e) => {
+                    if (!e.target.value.trim()) setError("กรุณากรอกชื่อ");
+                  }}
                   maxLength={50}
                   id="sender-name-input"
                 />
               </div>
               <div className="flex flex-col gap-1 min-w-[140px]">
                 <label className="text-xs font-bold text-[#5c3a24]">
-                  ผู้รับ:
+                  ผู้รับ <span className="text-red-600">*</span>:
                 </label>
                 <select
                   className="portal-select w-full"
@@ -134,14 +143,24 @@ export default function MessageBoard() {
               {recipient !== "พี่ปี 4 ทั้งหมด" && (
                 <div className="flex flex-col gap-1 flex-1 min-w-[140px]">
                   <label className="text-xs font-bold text-[#5c3a24]">
-                    {recipient === "ระบุเจาะจง" ? "ระบุชื่อเล่นพี่:" : "ระบุชื่อเล่น (ถ้ามี):"}
+                    {recipient === "ระบุเจาะจง" ? (
+                      <>ระบุชื่อเล่นพี่ <span className="text-red-600">*</span>:</>
+                    ) : (
+                      "ระบุชื่อเล่น (ถ้ามี):"
+                    )}
                   </label>
                   <input
                     type="text"
                     className="portal-input w-full"
                     placeholder={recipient === "เพื่อน" ? "เช่น ปาล์ม" : "เช่น พี่โอ๊ต"}
                     value={specificRecipient}
-                    onChange={(e) => setSpecificRecipient(e.target.value)}
+                    onChange={(e) => {
+                      setSpecificRecipient(e.target.value);
+                      if (recipient === "ระบุเจาะจง" && e.target.value.trim()) setError("");
+                    }}
+                    onBlur={(e) => {
+                      if (recipient === "ระบุเจาะจง" && !e.target.value.trim()) setError("กรุณาระบุชื่อผู้รับให้ชัดเจน");
+                    }}
                     maxLength={50}
                   />
                 </div>
@@ -149,13 +168,19 @@ export default function MessageBoard() {
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-[#5c3a24]">
-                ข้อความ:
+                ข้อความ <span className="text-red-600">*</span>:
               </label>
               <textarea
                 className="portal-textarea w-full"
                 placeholder="เขียนข้อความอำลาของคุณที่นี่..."
                 value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
+                onChange={(e) => {
+                  setMessageText(e.target.value);
+                  if (e.target.value.trim() && senderName.trim()) setError("");
+                }}
+                onBlur={(e) => {
+                  if (!e.target.value.trim()) setError("กรุณากรอกข้อความ");
+                }}
                 maxLength={500}
                 rows={3}
                 id="message-textarea"
@@ -164,25 +189,27 @@ export default function MessageBoard() {
                 {messageText.length}/500
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-between mt-2">
+              <div className="flex items-center gap-2">
+                {submitSuccess && (
+                  <span className="text-xs text-green-700 font-bold">
+                    ✅ ส่งข้อความสำเร็จ!
+                  </span>
+                )}
+                {error && (
+                  <span className="text-xs text-red-700 font-bold">
+                    ❌ {error}
+                  </span>
+                )}
+              </div>
               <button
                 type="submit"
-                className="btn-maroon disabled:opacity-50"
+                className="btn-maroon disabled:opacity-50 ml-auto"
                 disabled={isSubmitting}
                 id="submit-message-btn"
               >
                 {isSubmitting ? "กำลังส่ง..." : "📩 ส่งข้อความ"}
               </button>
-              {submitSuccess && (
-                <span className="text-xs text-green-700 font-bold">
-                  ✅ ส่งข้อความสำเร็จ!
-                </span>
-              )}
-              {error && (
-                <span className="text-xs text-red-700 font-bold">
-                  ❌ {error}
-                </span>
-              )}
             </div>
           </form>
         </div>
@@ -195,7 +222,7 @@ export default function MessageBoard() {
             ข้อความทั้งหมด ({messages.length} รายการ)
           </span>
           <button
-            className="text-[10px] px-2 py-0.5 border border-[#b5b3ac] bg-[#faf5eb] rounded-none cursor-pointer hover:bg-[#e8dcc6] transition-colors"
+            className="text-[10px] text-[#3a0a0a] font-bold px-2 py-0.5 border border-[#b5b3ac] bg-[#faf5eb] rounded-none cursor-pointer hover:bg-[#e8dcc6] transition-colors"
             onClick={() => setAutoScroll(!autoScroll)}
             id="toggle-scroll-btn"
           >

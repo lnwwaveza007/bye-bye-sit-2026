@@ -3,16 +3,22 @@ import IGAddYours from "./components/IGAddYours";
 import WishButton from "./components/WishButton";
 import Sidebar from "./components/Sidebar";
 import ActivityLogTable from "./components/ActivityLogTable";
+import FakeCountdown from "./components/FakeCountdown";
 
 export default function Home() {
   return (
     <div
-      className="min-h-screen flex flex-col font-sans text-[13px]"
+      className="min-h-screen flex flex-col font-sans text-[13px] relative"
       style={{
         background: "url('/imgs/bg-main.gif') 0 0 repeat-x #E7E7DC",
       }}
     >
-      <div className="w-full max-w-[1045px] mx-auto bg-white min-h-screen">
+      {/* Fake Countdown - Fixed to top left, hidden on mobile/tablet */}
+      <div className="fixed top-12 left-0 hidden xl:block z-50">
+        <FakeCountdown />
+      </div>
+
+      <div className="w-full max-w-[1045px] mx-auto bg-white min-h-screen shadow-lg">
         {/* ============ HEADER ============ */}
         <header className="flex flex-col w-full">
           <img src="/imgs/kmutt-academic_01.gif" alt="Header 1" className="w-full block h-[76px]" />
@@ -29,10 +35,8 @@ export default function Home() {
           <div className="flex flex-wrap border-b border-[#b8730f]">
             <span className="nav-tab active">หน้าหลัก</span>
             <span className="nav-tab">กระดานข้อความ</span>
-            <span className="nav-tab">IG Add Yours</span>
-            <span className="nav-tab">ส่งคำอวยพร</span>
-            <span className="nav-tab">ขอให้มีความสุข</span>
-            <span className="nav-tab border-r-0">อย่าลืมกลับมาหากันนะ</span>
+            <span className="nav-tab">กิจกรรม IG Story</span>
+            <span className="nav-tab border-r-0">ส่งคำอวยพร</span>
           </div>
 
           {/* Secondary nav
@@ -76,13 +80,12 @@ export default function Home() {
               </div> */}
             </section>
 
-            {/* Right Panel */}
             <aside className="contents lg:flex lg:w-[300px] lg:shrink-0 lg:flex-col lg:gap-3 lg:order-3">
               <div className="order-2 lg:order-none w-full">
-                <IGAddYours />
+                <WishButton />
               </div>
               <div className="order-4 lg:order-none w-full">
-                <WishButton />
+                <IGAddYours />
               </div>
             </aside>
           </div>
@@ -92,6 +95,9 @@ export default function Home() {
         <footer className="mt-auto">
           <div className="orange-bar" />
           <div className="bg-[#3a0a0a] text-[#b5b3ac] px-6 py-3 text-xs">
+            <div className="text-center text-[#d4b05c] font-bold mb-3 border-b border-[#5c3a24] pb-2">
+              ขอให้มีความสุข • อย่าลืมกลับมาหากันนะ
+            </div>
             <div className="flex flex-wrap justify-between items-center gap-2">
               <div className="space-y-0.5">
                 <div>

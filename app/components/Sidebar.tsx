@@ -76,11 +76,11 @@ export default function Sidebar() {
               <span>เขียนข้อความถึงพี่ๆ </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-[#8b2525] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">1</span>
+              <span className="bg-[#8b2525] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">2</span>
               <span>อ่านข้อความบนกระดาน</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-[#8b2525] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">2</span>
+              <span className="bg-[#8b2525] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center shrink-0 mt-0.5">3</span>
               <span>ร่วมเล่น IG Story &ldquo;Add Yours&rdquo;</span>
             </li>
             <li className="flex items-start gap-2">
