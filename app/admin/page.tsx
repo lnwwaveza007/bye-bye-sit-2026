@@ -166,7 +166,7 @@ export default function AdminPage() {
           <div className="max-w-[1400px] mx-auto">
             <h1 className="text-lg font-bold">🔐 ระบบจัดการ (Admin Panel)</h1>
             <div className="text-xs text-[#b5b3ac]">
-              KMUTT IT Bye Bye Party 2024 — Message Moderation
+              KMUTT IT Bye Bye Party 2026 — Message Moderation
             </div>
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function AdminPage() {
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-lg font-bold">🔐 ระบบจัดการ (Admin Panel)</h1>
-            <div className="text-xs text-[#b5b3ac]">KMUTT IT Bye Bye Party 2024 — Message Moderation</div>
+            <div className="text-xs text-[#b5b3ac]">KMUTT IT Bye Bye Party 2026 — Message Moderation</div>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-[#d4b05c]">✅ เข้าสู่ระบบแล้ว</span>

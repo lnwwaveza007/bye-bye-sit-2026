@@ -106,7 +106,7 @@ export default function Home() {
                     KMUTT IT Student Team
                   </span>
                 </div>
-                <div>สำหรับใช้งานภายในงาน Bye Bye Party 2024</div>
+                <div>สำหรับใช้งานภายในงาน Bye Bye Party 2026</div>
               </div>
               <div className="text-right text-[10px] space-y-0.5">
                 <div>Best viewed on event Wi-Fi</div>
