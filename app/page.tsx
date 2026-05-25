@@ -21,9 +21,9 @@ export default function Home() {
       <div className="w-full max-w-[1045px] mx-auto bg-white min-h-screen shadow-lg">
         {/* ============ HEADER ============ */}
         <header className="flex flex-col w-full">
-          <img src="/imgs/kmutt-academic_01.gif" alt="Header 1" className="w-full block h-[76px]" />
-          <img src="/imgs/kmutt-academic_02.gif" alt="Header 2" className="w-full block h-auto" />
-          <img src="/imgs/kmutt-academic_03.gif" alt="Header 3" className="w-full block h-auto" />
+          <img src="/imgs/kmutt-academic_01.png" alt="Header 1" className="w-full block h-[76px]" />
+          <img src="/imgs/kmutt-academic_02.png" alt="Header 2" className="w-full block h-auto" />
+          <img src="/imgs/kmutt-academic_03.png" alt="Header 3" className="w-full block h-auto" />
         </header>
 
         {/* ============ NAVIGATION ============ */}
