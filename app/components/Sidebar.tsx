@@ -43,7 +43,7 @@ export default function Sidebar() {
           </div>
           <div className="flex justify-between">
             <span className="text-[#5c3a24] font-bold">งาน:</span>
-            <span>Bye Bye Party 2024</span>
+            <span>Bye Bye Party 2026</span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#5c3a24] font-bold">ภาควิชา:</span>
